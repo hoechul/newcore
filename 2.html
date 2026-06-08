@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2주차 · 실전 업무 자동화</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #111; --ink2: #444; --ink3: #777;
+  --line: #e2e2e2; --bg: #fafaf8; --bg2: #f2f2f0;
+  --purple: #534AB7; --purple-bg: #EEEDFE;
+  --teal: #0F6E56; --teal-bg: #E1F5EE;
+  --amber: #92540a; --amber-bg: #FEF3CD;
+  --red: #9b2020; --red-bg: #FDEAEA;
+  --code-bg: #1e1e2e; --code-text: #cdd6f4; --r: 6px;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Apple SD Gothic Neo','Noto Sans KR',sans-serif; background: var(--bg); color: var(--ink); font-size: 15px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+a { color: var(--purple); text-decoration: none; } a:hover { text-decoration: underline; }
+strong { font-weight: 600; }
+code { font-family: 'D2Coding','Consolas',monospace; font-size: 13px; background: var(--bg2); border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; }
+h2 { font-size: 22px; font-weight: 700; line-height: 1.35; margin-bottom: 1.2rem; }
+h3 { font-size: 17px; font-weight: 600; margin: 2rem 0 0.6rem; }
+h4 { font-size: 15px; font-weight: 600; margin: 1.5rem 0 0.4rem; color: var(--ink2); }
+p { margin-bottom: 0.9rem; color: var(--ink2); }
+ul, ol { padding-left: 1.4rem; margin-bottom: 0.9rem; color: var(--ink2); }
+li { margin-bottom: 0.3rem; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 1rem 0; }
+th { background: var(--bg2); text-align: left; padding: 10px 12px; font-weight: 600; border: 1px solid var(--line); font-size: 13px; }
+td { padding: 9px 12px; border: 1px solid var(--line); vertical-align: top; }
+tr:nth-child(even) td { background: var(--bg); }
+
+.site-header { background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50; padding: 0 2rem; }
+.header-inner { max-width: 860px; margin: 0 auto; height: 52px; display: flex; align-items: center; justify-content: space-between; }
+.course-tag { font-size: 12px; color: var(--ink3); letter-spacing: .04em; }
+.week-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+.week-nav a { font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--line); color: var(--ink3); transition: all .15s; }
+.week-nav a:hover { border-color: var(--purple); color: var(--purple); text-decoration: none; }
+.week-nav a.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+
+.hero { background: #0d0d14; padding: 64px 2rem 56px; border-bottom: 1px solid #1e1e2e; }
+.hero-inner { max-width: 860px; margin: 0 auto; }
+.week-label { display: inline-block; font-size: 12px; font-weight: 600; color: #AFA9EC; letter-spacing: .08em; margin-bottom: 1rem; }
+.hero h1 { font-size: clamp(26px,4vw,38px); font-weight: 800; color: #fff; line-height: 1.3; margin-bottom: .75rem; }
+.hero-desc { font-size: 16px; color: #888; max-width: 560px; line-height: 1.7; margin-bottom: 2rem; }
+.hero-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 20px; border: 1px solid; }
+.chip-purple { background: rgba(83,74,183,.15); border-color: rgba(83,74,183,.4); color: #AFA9EC; }
+.chip-teal { background: rgba(29,158,117,.12); border-color: rgba(29,158,117,.35); color: #5DCAA5; }
+.chip-amber { background: rgba(239,159,39,.12); border-color: rgba(239,159,39,.35); color: #FAC775; }
+
+.page { max-width: 860px; margin: 0 auto; padding: 0 2rem 6rem; display: grid; grid-template-columns: 200px 1fr; gap: 3rem; align-items: start; }
+@media(max-width:700px){ .page { grid-template-columns: 1fr; } .toc { display: none; } }
+
+.toc { position: sticky; top: 72px; padding-top: 2.5rem; }
+.toc-title { font-size: 11px; font-weight: 600; letter-spacing: .08em; color: var(--ink3); margin-bottom: .75rem; text-transform: uppercase; }
+.toc-list { list-style: none; padding: 0; }
+.toc-list li { margin-bottom: 2px; }
+.toc-list a { font-size: 13px; color: var(--ink3); display: block; padding: 4px 8px; border-radius: 4px; transition: all .15s; }
+.toc-list a:hover { color: var(--purple); background: var(--purple-bg); text-decoration: none; }
+.toc-list .toc-sub a { padding-left: 18px; font-size: 12px; }
+
+.content { padding-top: 2.5rem; }
+.sec-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--line); }
+.sec-num { font-size: 11px; font-weight: 700; color: var(--purple); letter-spacing: .1em; flex-shrink: 0; }
+.sec-title { font-size: 20px; font-weight: 700; }
+section { margin-bottom: 3.5rem; }
+
+.callout { border-radius: var(--r); padding: 1rem 1.25rem; margin: 1rem 0; font-size: 14px; line-height: 1.7; border-left: 3px solid; }
+.callout-title { font-weight: 600; margin-bottom: 4px; font-size: 13px; letter-spacing: .04em; }
+.callout.tip  { background: var(--teal-bg);   border-color: var(--teal);   color: #0a4d39; }
+.callout.warn { background: var(--amber-bg);  border-color: #d97706;       color: var(--amber); }
+.callout.info { background: var(--purple-bg); border-color: var(--purple); color: #3C3489; }
+.callout p { color: inherit; margin-bottom: 0; }
+
+.codeblock { background: var(--code-bg); border-radius: var(--r); margin: 1rem 0; overflow: hidden; }
+.codeblock-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; background: rgba(255,255,255,.04); border-bottom: 1px solid rgba(255,255,255,.06); }
+.codeblock-label { font-size: 11px; color: #6c7086; font-weight: 500; letter-spacing: .05em; }
+.copy-btn { font-size: 11px; color: #6c7086; background: none; border: 1px solid rgba(255,255,255,.1); border-radius: 4px; padding: 3px 10px; cursor: pointer; transition: all .15s; }
+.copy-btn:hover { color: #cdd6f4; border-color: rgba(255,255,255,.25); }
+.codeblock pre { padding: 1rem 1.25rem; overflow-x: auto; font-family: 'D2Coding','Consolas',monospace; font-size: 13px; line-height: 1.65; color: var(--code-text); margin: 0; }
+.codeblock pre .cmt { color: #585b70; }
+
+.steps { list-style: none; padding: 0; counter-reset: step; margin: 1rem 0; }
+.steps li { counter-increment: step; display: flex; gap: 14px; align-items: flex-start; padding: 0.75rem 0; border-bottom: 1px solid var(--line); color: var(--ink2); font-size: 14px; }
+.steps li:last-child { border-bottom: none; }
+.steps li::before { content: counter(step); min-width: 24px; height: 24px; border-radius: 50%; background: var(--purple); color: #fff; font-size: 11px; font-weight: 700; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+
+.outcome-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 12px; margin: 1rem 0; }
+.outcome-card { background: #fff; border: 1px solid var(--line); border-radius: var(--r); padding: 1rem 1.1rem; }
+.outcome-icon { font-size: 22px; margin-bottom: 6px; }
+.outcome-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.outcome-desc { font-size: 13px; color: var(--ink3); line-height: 1.6; }
+
+.prompt-block { background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--purple); border-radius: 0 var(--r) var(--r) 0; padding: 1rem 1.25rem; margin: 1rem 0; }
+.prompt-label { font-size: 11px; font-weight: 600; color: var(--purple); letter-spacing: .06em; margin-bottom: 6px; }
+.prompt-text { font-size: 14px; color: var(--ink); line-height: 1.7; font-style: italic; }
+
+.auto-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 14px; margin: 1.25rem 0; }
+.auto-card { background: #fff; border: 1px solid var(--line); border-radius: var(--r); padding: 1.1rem 1.25rem; }
+.auto-tag { font-size: 11px; font-weight: 600; color: var(--teal); letter-spacing: .05em; margin-bottom: 6px; }
+.auto-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.auto-desc { font-size: 13px; color: var(--ink3); line-height: 1.6; }
+.auto-time { display: inline-block; font-size: 11px; background: var(--teal-bg); color: var(--teal); padding: 2px 8px; border-radius: 20px; margin-top: 8px; font-weight: 500; }
+
+.next-week { background: #0d0d14; border-radius: 12px; padding: 2rem; margin-top: 1rem; }
+.next-week-label { font-size: 11px; color: #6c7086; letter-spacing: .08em; margin-bottom: 6px; }
+.next-week-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+.next-week-desc { font-size: 14px; color: #777; }
+
+.dl-card { border: 1px dashed var(--line); border-radius: var(--r); padding: 1.25rem; display: flex; align-items: center; gap: 14px; margin: 0.5rem 0; transition: border-color .15s; }
+.dl-card:hover { border-color: var(--purple); text-decoration: none; }
+.dl-icon { font-size: 28px; }
+.dl-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+.dl-meta { font-size: 12px; color: var(--ink3); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <span class="course-tag">강남뉴코아 문화센터 · 3회 과정</span>
+    <nav class="week-nav">
+      <a href="1.html">1주차<br><small>셋업과 자동화 기초</small></a>
+      <a href="2.html" class="active">2주차<br><small>실전 업무 자동화</small></a>
+      <a href="3.html">3주차<br><small>랜딩페이지 완성</small></a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="week-label">Week 02 · 강남뉴코아 문화센터</div>
+    <h1>내 업무에 맞춘<br>자동화 루틴을 만든다</h1>
+    <p class="hero-desc">상품 설명 · 보고서 · SNS 문구 · 고객 응대까지. 매일 반복하던 일을 클로드에게 시키고, 나만의 자동화 루틴을 저장해 간다.</p>
+    <div class="hero-chips">
+      <span class="chip chip-purple">✔ 상품 설명 자동 생성</span>
+      <span class="chip chip-teal">✔ SNS · 보고서 자동화</span>
+      <span class="chip chip-amber">✔ 나만의 루틴 저장</span>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <aside class="toc">
+    <div class="toc-title">목차</div>
+    <ul class="toc-list">
+      <li><a href="#overview">오늘의 목표 · 준비물</a></li>
+      <li><a href="#sec-product">1. 상품 설명 자동화</a></li>
+      <ul class="toc-sub">
+        <li><a href="#product-single">단품 상품 설명</a></li>
+        <li><a href="#product-bulk">대량 생성</a></li>
+      </ul>
+      <li><a href="#sec-sns">2. SNS · 마케팅 문구</a></li>
+      <ul class="toc-sub">
+        <li><a href="#instagram">인스타그램 캡션</a></li>
+        <li><a href="#reply">고객 문의 답변</a></li>
+      </ul>
+      <li><a href="#sec-report">3. 보고서 · 문서 자동화</a></li>
+      <ul class="toc-sub">
+        <li><a href="#weekly">주간 보고서</a></li>
+        <li><a href="#template">템플릿 저장법</a></li>
+      </ul>
+      <li><a href="#sec-routine">4. 나만의 루틴 설계</a></li>
+      <li><a href="#trouble">트러블슈팅</a></li>
+      <li><a href="#next-week">다음 주 예고</a></li>
+      <li><a href="#download">부록 다운로드</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+
+    <!-- 00 준비물 -->
+    <section id="overview">
+      <div class="sec-header"><span class="sec-num">00</span><span class="sec-title">오늘의 목표와 준비물</span></div>
+
+      <div class="outcome-grid">
+        <div class="outcome-card">
+          <div class="outcome-icon">🛒</div>
+          <div class="outcome-title">상품 설명 자동 생성</div>
+          <div class="outcome-desc">상품 정보만 입력하면 스마트스토어용 상세설명이 즉시 완성</div>
+        </div>
+        <div class="outcome-card">
+          <div class="outcome-icon">📱</div>
+          <div class="outcome-title">SNS 문구 자동화</div>
+          <div class="outcome-desc">인스타·블로그 캡션, 고객 답변 초안을 AI가 대신 작성</div>
+        </div>
+        <div class="outcome-card">
+          <div class="outcome-icon">💾</div>
+          <div class="outcome-title">나만의 루틴 저장</div>
+          <div class="outcome-desc">자주 쓰는 프롬프트를 저장해 다음번엔 3초 만에 불러쓴다</div>
+        </div>
+      </div>
+
+      <h3>오늘 준비물</h3>
+      <ul>
+        <li>1주차에 설치한 VS Code + 클로드코드</li>
+        <li>본인 상품 정보 메모 (상품명, 소재, 특징, 가격대, 타겟 고객)</li>
+        <li>자동화하고 싶은 반복 업무 1~2가지 생각해 오기</li>
+      </ul>
+    </section>
+
+    <!-- 01 상품 설명 자동화 -->
+    <section id="sec-product">
+      <div class="sec-header"><span class="sec-num">01</span><span class="sec-title">상품 설명 자동화</span></div>
+      <p>스마트스토어, 쿠팡, 11번가 등 온라인 쇼핑몰에 올리는 상품 상세설명을 클로드가 대신 쓴다. 상품 정보만 넣으면 된다.</p>
+
+      <h3 id="product-single">단품 상품 설명 생성</h3>
+      <div class="prompt-block">
+        <div class="prompt-label">클로드코드에 입력</div>
+        <div class="prompt-text">
+          스마트스토어 상품 상세설명을 작성해줘.<br><br>
+          상품명: [예: 여름 린넨 반팔 티셔츠]<br>
+          소재: [예: 린넨 55% 면 45%]<br>
+          특징: [예: 통기성 좋음, 세탁기 가능, S~XXL 사이즈]<br>
+          가격: [예: 29,900원]<br>
+          타겟: [예: 20~40대 직장인]<br>
+          시즌: [예: 여름]<br><br>
+          조건: 400자 내외, 이모지 포함, 사이즈 표 포함, 구매 유도 문구로 마무리.
+          파일명 product_desc.txt로 저장해줘.
+        </div>
+      </div>
+
+      <h3 id="product-bulk">상품 여러 개 한꺼번에 생성</h3>
+      <p>엑셀에 상품 목록이 있으면 한 번에 전부 처리할 수 있다.</p>
+
+      <div class="prompt-block">
+        <div class="prompt-label">클로드코드에 입력</div>
+        <div class="prompt-text">
+          products.xlsx 파일을 열어줘. A열에 상품명, B열에 소재, C열에 특징이 있어.<br>
+          각 행의 상품마다 스마트스토어 상세설명 300자를 D열에 채워줘.<br>
+          완료되면 products_complete.xlsx로 저장해줘.
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-title">💡 상품 수가 많을수록 효과가 크다</div>
+        <p>10개 상품이면 기존에 2~3시간 걸리던 작업이 5분으로 줄어든다. 상품 목록 엑셀을 미리 만들어 오면 수업 중에 바로 적용해볼 수 있다.</p>
+      </div>
+
+      <h3>11번가 · 쿠팡 스타일로 변환</h3>
+      <div class="prompt-block">
+        <div class="prompt-label">클로드코드에 입력</div>
+        <div class="prompt-text">
+          방금 만든 product_desc.txt 내용을 쿠팡 스타일로 다시 써줘.
+          쿠팡은 짧고 직관적인 문장, 혜택 중심, 로켓배송 언급 포함.
+          쿠팡용은 coupang_desc.txt로 따로 저장해줘.
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 SNS 마케팅 -->
+    <section id="sec-sns">
+      <div class="sec-header"><span class="sec-num">02</span><span class="sec-title">SNS · 마케팅 문구 자동화</span></div>
+
+      <h3 id="instagram">인스타그램 캡션 자동 생성</h3>
+      <div class="prompt-block">
+        <div class="prompt-label">클로드코드에 입력</div>
+        <div class="prompt-text">
+          인스타그램 상품 홍보 캡션을 5가지 버전으로 만들어줘.<br><br>
+          상품: [예: 린넨 티셔츠 신상 입고]<br>
+          분위기: [예: 감성적이고 따뜻한 톤]<br>
+          포함 내용: 가격(29,900원), 링크 유도("프로필 링크 클릭"), 해시태그 10개<br>
+          각 버전은 150자 내외로 작성해줘.
+        </div>
+      </div>
+
+      <h3 id="reply">고객 문의 답변 자동화</h3>
+      <p>자주 받는 질문 유형을 등록해두면 클로드가 일관된 톤으로 답변 초안을 만들어준다.</p>
+
+      <div class="auto-grid">
+        <div class="auto-card">
+          <div class="auto-tag">배송 문의</div>
+          <div class="auto-title">배송 예정일 답변</div>
+          <div class="auto-desc">주문일, 택배사, 예상 도착일을 넣으면 친절한 답변 초안 완성</div>
+          <span class="auto-time">⏱ 30초</span>
+        </div>
+        <div class="auto-card">
+          <div class="auto-tag">교환·반품</div>
+          <div class="auto-title">교환·반품 안내</div>
+          <div class="auto-desc">사유와 규정을 입력하면 정중하고 명확한 안내 문자 완성</div>
+          <span class="auto-time">⏱ 30초</span>
+        </div>
+        <div class="auto-card">
+          <div class="auto-tag">상품 문의</div>
+          <div class="auto-title">사이즈·소재 안내</div>
+          <div class="auto-desc">상품 스펙을 기반으로 고객 질문에 맞는 답변 자동 생성</div>
+          <span class="auto-time">⏱ 30초</span>
+        </div>
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-label">클로드코드에 입력 — 고객 문의 답변</div>
+        <div class="prompt-text">
+          아래 고객 문의에 정중하고 친절한 답변을 작성해줘.<br><br>
+          고객 문의: "주문한 지 3일 됐는데 배송이 안 왔어요. 언제 오나요?"<br>
+          상황: 주문일 [날짜], 출고일 [날짜], 택배사 CJ대한통운, 송장번호 [번호]<br><br>
+          톤: 정중하고 친절하게, 불편 드린 점 사과, 추적 방법 안내 포함.
+          200자 이내로 작성해줘.
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 보고서 자동화 -->
+    <section id="sec-report">
+      <div class="sec-header"><span class="sec-num">03</span><span class="sec-title">보고서 · 문서 자동화</span></div>
+
+      <h3 id="weekly">주간 업무 보고서 자동 완성</h3>
+      <div class="prompt-block">
+        <div class="prompt-label">클로드코드에 입력</div>
+        <div class="prompt-text">
+          이번 주 업무 내용으로 주간 보고서를 작성해줘.<br><br>
+          완료 업무: [예: 신상품 20종 등록, 고객문의 31건 처리, 기획전 배너 제작]<br>
+          진행 중: [예: 다음달 시즌오프 기획전 준비 60%]<br>
+          이슈: [예: 특정 상품 재고 부족 — 발주 완료]<br>
+          다음 주 계획: [예: 재고 실사, 신상품 촬영, 월말 정산]<br><br>
+          형식: 표 + 항목별 요약. weekly_report_[날짜].docx로 저장해줘.
+        </div>
+      </div>
+
+      <h3 id="template">자주 쓰는 프롬프트 저장하기</h3>
+      <p>매번 프롬프트를 다시 쓰지 않아도 된다. <code>CLAUDE.md</code> 파일에 자주 쓰는 지시를 저장해두면 클로드가 자동으로 참고한다.</p>
+
+      <ol class="steps">
+        <li>작업 폴더 안에 <code>CLAUDE.md</code> 파일을 새로 만든다</li>
+        <li>아래 예시처럼 반복 지시 사항을 적는다</li>
+        <li>저장 후 클로드코드를 다시 실행하면 자동 적용된다</li>
+      </ol>
+
+      <div class="codeblock">
+        <div class="codeblock-header"><span class="codeblock-label">CLAUDE.md 예시</span><button class="copy-btn" onclick="copyCode(this)">복사</button></div>
+        <pre><span class="cmt"># 내 작업 규칙</span>
+
+- 모든 답변은 한국어로 작성
+- 상품 설명은 항상 300~400자, 이모지 2~3개 포함
+- 파일 저장 시 날짜를 파일명 끝에 붙임 (예: report_20260601.docx)
+- 고객 답변 톤: 정중하고 친절하게, 존댓말 사용
+- 엑셀 정리 후 항상 원본은 backup_ 접두어로 따로 저장</pre>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-title">ℹ️ CLAUDE.md는 나만의 AI 비서 설명서</div>
+        <p>한 번 잘 만들어두면 매번 같은 조건을 반복 입력할 필요가 없다. 업무가 바뀌면 파일만 수정하면 된다.</p>
+      </div>
+    </section>
+
+    <!-- 04 나만의 루틴 설계 -->
+    <section id="sec-routine">
+      <div class="sec-header"><span class="sec-num">04</span><span class="sec-title">나만의 자동화 루틴 설계</span></div>
+      <p>지금까지 배운 기술을 조합해서 본인 업무에 맞는 자동화 흐름을 설계한다.</p>
+
+      <h3>업무별 추천 자동화 조합</h3>
+
+      <table>
+        <thead><tr><th>직업/업무</th><th>추천 자동화</th><th>예상 절약 시간</th></tr></thead>
+        <tbody>
+          <tr><td>스마트스토어 셀러</td><td>상품 설명 대량 생성 + 고객 문의 답변 템플릿</td><td>하루 1~2시간</td></tr>
+          <tr><td>의류 브랜드 운영</td><td>SNS 캡션 5종 세트 + 인스타 해시태그 생성</td><td>주 3~4시간</td></tr>
+          <tr><td>직장인 (보고서)</td><td>주간 보고서 자동 완성 + 회의 안건 정리</td><td>주 2~3시간</td></tr>
+          <tr><td>프리랜서</td><td>견적서 초안 + 이메일 회신 문구</td><td>건당 30분</td></tr>
+          <tr><td>소상공인</td><td>이벤트 문자 문구 + 메뉴 소개 문구</td><td>주 2시간</td></tr>
+        </tbody>
+      </table>
+
+      <h3>실습 — 본인 루틴 완성하기</h3>
+      <p>아래 질문에 답하면서 본인만의 자동화 루틴을 설계해본다.</p>
+
+      <div class="callout info">
+        <div class="callout-title">📝 루틴 설계 질문지</div>
+        <p>
+          1. 매일 또는 매주 반드시 하는 반복 업무는 무엇인가?<br>
+          2. 그 중에서 가장 시간이 많이 걸리는 것은?<br>
+          3. 결과물의 형태는? (파일, 문자, 게시글, 표…)<br>
+          4. 조건이나 규칙이 있다면? (글자 수, 톤, 포함 요소…)<br>
+          5. 저장은 어디에? (폴더, 파일명 규칙…)
+        </p>
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-label">본인 루틴 프롬프트 — 직접 작성해보기</div>
+        <div class="prompt-text">
+          [업무명]을 자동화해줘.<br><br>
+          입력 정보: [필요한 정보 목록]<br>
+          결과물 형태: [파일 종류, 분량, 형식]<br>
+          조건: [톤, 스타일, 포함해야 할 요소]<br>
+          저장 위치: [파일명 규칙]
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-title">💡 CLAUDE.md에 바로 저장해두자</div>
+        <p>오늘 만든 루틴 프롬프트를 CLAUDE.md에 추가해두면 다음번에 폴더만 열어도 바로 쓸 수 있다.</p>
+      </div>
+    </section>
+
+    <!-- 트러블슈팅 -->
+    <section id="trouble">
+      <div class="sec-header"><span class="sec-num">—</span><span class="sec-title">트러블슈팅</span></div>
+
+      <h3>결과물이 너무 길거나 짧다</h3>
+      <div class="callout warn">
+        <div class="callout-title">글자 수를 명시한다</div>
+        <p>프롬프트에 "300자 이내", "5줄 이하", "A4 1페이지 분량"처럼 구체적인 분량을 지정하면 원하는 길이로 나온다.</p>
+      </div>
+
+      <h3>엑셀 파일을 읽지 못한다</h3>
+      <div class="callout warn">
+        <div class="callout-title">파일이 같은 폴더에 있어야 한다</div>
+        <p>클로드코드를 실행한 폴더 안에 엑셀 파일이 있어야 한다. VS Code에서 연 폴더 = 클로드코드의 작업 폴더다.</p>
+      </div>
+
+      <h3>한 번에 너무 많이 시키면 중간에 멈춘다</h3>
+      <div class="callout info">
+        <div class="callout-title">작업을 쪼개서 요청한다</div>
+        <p>상품 100개를 한 번에 요청하는 것보다 20개씩 5번 나눠서 요청하는 것이 더 안정적이다. 큰 작업은 단계별로 나눈다.</p>
+      </div>
+
+      <h3>파일을 저장했는데 폴더에 안 보인다</h3>
+      <div class="callout warn">
+        <div class="callout-title">VS Code 탐색기를 새로고침한다</div>
+        <p>VS Code 왼쪽 탐색기에서 폴더 이름 오른쪽 클릭 → <strong>새로고침</strong>을 누르면 새로 생성된 파일이 나타난다.</p>
+      </div>
+    </section>
+
+    <!-- 다음 주 예고 -->
+    <section id="next-week">
+      <div class="sec-header"><span class="sec-num">—</span><span class="sec-title">다음 주 예고</span></div>
+      <div class="next-week">
+        <div class="next-week-label">3주차 예고</div>
+        <div class="next-week-title">랜딩페이지 완성과 Vercel 배포</div>
+        <div class="next-week-desc" style="margin-top:.5rem;">
+          클로드로 나만의 HTML 페이지를 만들고, GitHub에 올린 뒤 Vercel로 배포해 실제 URL을 손에 쥔다.
+          노트북 한 대로 내 사업·브랜드·포트폴리오 홈페이지를 직접 만들어 공개한다.
+        </div>
+      </div>
+    </section>
+
+    <!-- 다운로드 -->
+    <section id="download">
+      <div class="sec-header"><span class="sec-num">—</span><span class="sec-title">부록 다운로드</span></div>
+      <a class="dl-card" href="#" onclick="alert('강사에게 파일을 요청하세요'); return false;">
+        <div class="dl-icon">📄</div>
+        <div><div class="dl-name">2주차 프롬프트 모음.pdf</div><div class="dl-meta">상품·SNS·보고서 자동화 프롬프트 30선</div></div>
+      </a>
+      <a class="dl-card" href="#" onclick="alert('강사에게 파일을 요청하세요'); return false;">
+        <div class="dl-icon">📋</div>
+        <div><div class="dl-name">CLAUDE.md 템플릿.txt</div><div class="dl-meta">업종별 CLAUDE.md 기본 템플릿 5종</div></div>
+      </a>
+      <a class="dl-card" href="#" onclick="alert('강사에게 파일을 요청하세요'); return false;">
+        <div class="dl-icon">📊</div>
+        <div><div class="dl-name">상품목록 실습용.xlsx</div><div class="dl-meta">대량 상품설명 생성 실습에 사용하는 샘플 엑셀</div></div>
+      </a>
+    </section>
+
+  </main>
+</div>
+
+<script>
+function copyCode(btn) {
+  const pre = btn.closest('.codeblock').querySelector('pre');
+  const text = pre.innerText.replace(/^\$ |^PS> /gm,'');
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '완료!';
+    setTimeout(() => btn.textContent = '복사', 1500);
+  });
+}
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.toc-list a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.style.fontWeight = '');
+      const active = document.querySelector(`.toc-list a[href="#${e.target.id}"]`);
+      if (active) active.style.fontWeight = '600';
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
