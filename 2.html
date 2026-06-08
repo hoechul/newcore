@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2주차 · 랜딩페이지 완성 | Claude Code 실전 과정</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--or:#D97757;--or-light:#F5E6DF;--pu:#534AB7;--pu-light:#EEEDFE;--pu-mid:#AFA9EC;--pu-dark:#3C3489;--tl:#0F6E56;--tl-light:#E1F5EE;--am:#92540a;--am-bg:#FEF3CD;--re:#9b2020;--re-bg:#FDEAEA;--cb:#1e1e2e;--ct:#cdd6f4;--g950:#080808;--g400:#888;--g300:#bbb;--g200:#e2e2e2;--g100:#f5f5f3;--g600:#444;--rsm:8px;--rmd:12px;--rlg:16px;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--g100);color:#111;font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+a{color:var(--pu);text-decoration:none;}a:hover{text-decoration:underline;}
+strong{font-weight:600;}
+code{font-family:'D2Coding','Consolas',monospace;font-size:13px;background:#f0f0ee;border:1px solid var(--g200);border-radius:4px;padding:1px 6px;}
+h3{font-size:17px;font-weight:600;margin:2rem 0 .6rem;}
+h4{font-size:15px;font-weight:600;margin:1.5rem 0 .4rem;color:var(--g600);}
+p{margin-bottom:.9rem;color:var(--g600);}
+ul,ol{padding-left:1.4rem;margin-bottom:.9rem;color:var(--g600);}
+li{margin-bottom:.3rem;}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:1rem 0;}
+th{background:var(--g100);text-align:left;padding:10px 12px;font-weight:600;border:1px solid var(--g200);font-size:13px;}
+td{padding:9px 12px;border:1px solid var(--g200);vertical-align:top;}
+tr:nth-child(even) td{background:#fafaf8;}
+.hd{background:#fff;border-bottom:1px solid var(--g200);position:sticky;top:0;z-index:50;padding:0 2rem;}
+.hd-in{max-width:860px;margin:0 auto;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.hd-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+.hd-logo-ic{width:26px;height:26px;border-radius:6px;background:var(--or);display:flex;align-items:center;justify-content:center;}
+.hd-logo-ic svg{width:14px;height:14px;}
+.hd-logo-t{font-size:13px;font-weight:700;color:#111;}
+.hd-logo-t em{color:var(--or);font-style:normal;}
+.wnav{display:flex;gap:4px;flex-wrap:wrap;}
+.wnav a{font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;border:1px solid var(--g200);color:var(--g400);transition:all .15s;}
+.wnav a:hover{border-color:var(--pu);color:var(--pu);text-decoration:none;}
+.wnav a.on{background:var(--pu);color:#fff;border-color:var(--pu);}
+.hero{background:var(--g950);padding:64px 2rem 56px;border-bottom:1px solid #1e1e2e;}
+.hero-in{max-width:860px;margin:0 auto;}
+.wlbl{display:inline-block;font-size:12px;font-weight:600;color:#AFA9EC;letter-spacing:.08em;margin-bottom:1rem;}
+.hero h1{font-size:clamp(26px,4vw,38px);font-weight:800;color:#fff;line-height:1.3;margin-bottom:.75rem;}
+.hero-d{font-size:16px;color:#888;max-width:560px;line-height:1.7;margin-bottom:2rem;}
+.chips{display:flex;gap:8px;flex-wrap:wrap;}
+.chip{font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;border:1px solid;}
+.cp{background:rgba(83,74,183,.15);border-color:rgba(83,74,183,.4);color:#AFA9EC;}
+.ct{background:rgba(29,158,117,.12);border-color:rgba(29,158,117,.35);color:#5DCAA5;}
+.ca{background:rgba(239,159,39,.12);border-color:rgba(239,159,39,.35);color:#FAC775;}
+.pg{max-width:860px;margin:0 auto;padding:0 2rem 6rem;display:grid;grid-template-columns:200px 1fr;gap:3rem;align-items:start;}
+@media(max-width:700px){.pg{grid-template-columns:1fr;}.toc{display:none;}}
+.toc{position:sticky;top:72px;padding-top:2.5rem;}
+.toc-t{font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--g400);margin-bottom:.75rem;text-transform:uppercase;}
+.toc ul{list-style:none;padding:0;}
+.toc li{margin-bottom:2px;}
+.toc a{font-size:13px;color:var(--g400);display:block;padding:4px 8px;border-radius:4px;transition:all .15s;}
+.toc a:hover{color:var(--pu);background:var(--pu-light);text-decoration:none;}
+.toc .sub a{padding-left:18px;font-size:12px;}
+.content{padding-top:2.5rem;}
+.sh{display:flex;align-items:baseline;gap:12px;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--g200);}
+.sn{font-size:11px;font-weight:700;color:var(--pu);letter-spacing:.1em;flex-shrink:0;}
+.st{font-size:20px;font-weight:700;}
+section{margin-bottom:3.5rem;}
+.cl{border-radius:var(--rsm);padding:1rem 1.25rem;margin:1rem 0;font-size:14px;line-height:1.7;border-left:3px solid;}
+.cl-t{font-weight:600;margin-bottom:4px;font-size:13px;}
+.cl.tip{background:var(--tl-light);border-color:var(--tl);color:#0a4d39;}
+.cl.warn{background:var(--am-bg);border-color:#d97706;color:var(--am);}
+.cl.info{background:var(--pu-light);border-color:var(--pu);color:var(--pu-dark);}
+.cl p{color:inherit;margin-bottom:0;}
+.cb{background:var(--cb);border-radius:var(--rsm);margin:1rem 0;overflow:hidden;}
+.cb-h{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06);}
+.cb-l{font-size:11px;color:#6c7086;font-weight:500;}
+.cp-btn{font-size:11px;color:#6c7086;background:none;border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:3px 10px;cursor:pointer;}
+.cp-btn:hover{color:#cdd6f4;}
+.cb pre{padding:1rem 1.25rem;overflow-x:auto;font-family:'D2Coding','Consolas',monospace;font-size:13px;line-height:1.65;color:var(--ct);margin:0;}
+.cb pre .ps{color:#89b4fa;}.cb pre .cm{color:#cba6f7;}.cb pre .s{color:#a6e3a1;}.cb pre .c{color:#585b70;}
+.steps{list-style:none;padding:0;counter-reset:s;margin:1rem 0;}
+.steps li{counter-increment:s;display:flex;gap:14px;align-items:flex-start;padding:.75rem 0;border-bottom:1px solid var(--g200);color:var(--g600);font-size:14px;}
+.steps li:last-child{border-bottom:none;}
+.steps li::before{content:counter(s);min-width:24px;height:24px;border-radius:50%;background:var(--pu);color:#fff;font-size:11px;font-weight:700;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:2px;}
+.oc-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:1rem 0;}
+.oc{background:#fff;border:1px solid var(--g200);border-radius:var(--rmd);padding:1rem 1.1rem;}
+.oc-ic{font-size:22px;margin-bottom:6px;}
+.oc-t{font-size:14px;font-weight:600;margin-bottom:4px;}
+.oc-d{font-size:13px;color:var(--g400);line-height:1.6;}
+.pb{background:#fff;border:1px solid var(--g200);border-left:3px solid var(--pu);border-radius:0 var(--rsm) var(--rsm) 0;padding:1rem 1.25rem;margin:1rem 0;}
+.pb-l{font-size:11px;font-weight:600;color:var(--pu);letter-spacing:.06em;margin-bottom:6px;}
+.pb-t{font-size:14px;color:#111;line-height:1.7;font-style:italic;}
+.tl{margin:1rem 0;}
+.tl-item{display:flex;gap:16px;padding-bottom:1.5rem;position:relative;}
+.tl-item:not(:last-child)::after{content:'';position:absolute;left:19px;top:38px;bottom:0;width:2px;background:var(--g200);}
+.tl-dot{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--pu-light);border:2px solid var(--pu);}
+.tl-time{font-size:12px;font-weight:600;color:var(--pu);margin-bottom:2px;}
+.tl-t{font-size:15px;font-weight:600;margin-bottom:4px;}
+.tl-d{font-size:13px;color:var(--g400);line-height:1.6;}
+.nw{background:var(--g950);border-radius:var(--rlg);padding:2rem;margin-top:1rem;}
+.nw-l{font-size:11px;color:#6c7086;letter-spacing:.08em;margin-bottom:6px;}
+.nw-t{font-size:20px;font-weight:700;color:#fff;margin-bottom:.5rem;}
+.nw-d{font-size:14px;color:#777;}
+.dl{border:1px dashed var(--g200);border-radius:var(--rsm);padding:1.25rem;display:flex;align-items:center;gap:14px;margin:.5rem 0;}
+.dl:hover{border-color:var(--pu);text-decoration:none;}
+.dl-ic{font-size:28px;}
+.dl-n{font-size:14px;font-weight:600;color:#111;}
+.dl-m{font-size:12px;color:var(--g400);}
+</style>
+</head>
+<body>
+<header class="hd">
+  <div class="hd-in">
+    <a class="hd-logo" href="index.html">
+      <div class="hd-logo-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span class="hd-logo-t">Claude <em>Code</em></span>
+    </a>
+    <nav class="wnav">
+      <a href="1.html">1주차<br><small>셋업·기초</small></a>
+      <a href="2.html" class="on">2주차<br><small>랜딩페이지</small></a>
+      <a href="3.html">3주차<br><small>업무자동화</small></a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-in">
+    <div class="wlbl">Week 02 · 강남뉴코아 문화센터</div>
+    <h1>나만의 랜딩페이지를<br>완성하고 인터넷에 올린다</h1>
+    <p class="hero-d">Claude Code에게 말로 지시해서 HTML 랜딩페이지를 만들고, GitHub에 올려 Vercel로 배포한다. 강의가 끝나면 실제 접속 가능한 내 URL을 손에 쥔다.</p>
+    <div class="chips">
+      <span class="chip cp">✔ HTML 구조 이해</span>
+      <span class="chip ct">✔ 클로드로 페이지 생성·수정</span>
+      <span class="chip ca">✔ GitHub → Vercel 배포</span>
+    </div>
+  </div>
+</div>
+
+<div class="pg">
+  <aside class="toc">
+    <div class="toc-t">목차</div>
+    <ul>
+      <li><a href="#overview">오늘의 목표·준비물</a></li>
+      <li><a href="#html">1. HTML이 뭔가</a></li>
+      <ul class="sub"><li><a href="#html-structure">페이지 뼈대</a></li><li><a href="#html-tags">자주 쓰는 태그</a></li></ul>
+      <li><a href="#build">2. 클로드로 페이지 만들기</a></li>
+      <ul class="sub"><li><a href="#first-prompt">첫 프롬프트</a></li><li><a href="#iterate">반복 수정</a></li><li><a href="#image">이미지 넣기</a></li></ul>
+      <li><a href="#github">3. GitHub 올리기</a></li>
+      <li><a href="#vercel">4. Vercel 배포</a></li>
+      <li><a href="#domain">5. 도메인 연결 (선택)</a></li>
+      <li><a href="#trouble">트러블슈팅</a></li>
+      <li><a href="#next">다음 주 예고</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+    <section id="overview">
+      <div class="sh"><span class="sn">00</span><span class="st">오늘의 목표와 준비물</span></div>
+      <div class="oc-g">
+        <div class="oc"><div class="oc-ic">🌐</div><div class="oc-t">나만의 URL 완성</div><div class="oc-d">오늘 강의가 끝나면 실제로 접속 가능한 내 페이지 주소를 갖게 된다</div></div>
+        <div class="oc"><div class="oc-ic">✏️</div><div class="oc-t">수정도 혼자 할 수 있다</div><div class="oc-d">클로드에게 말로 요청하면 디자인·텍스트를 언제든 바꿀 수 있다</div></div>
+        <div class="oc"><div class="oc-ic">💰</div><div class="oc-t">운영 비용 0원</div><div class="oc-d">GitHub + Vercel 무료 플랜만으로 배포·유지된다</div></div>
+      </div>
+      <h3>준비물 체크리스트</h3>
+      <ul>
+        <li>1주차에 설치한 VS Code + Claude Code + Git</li>
+        <li>GitHub 계정 (1주차에서 가입) + 저장소 준비</li>
+        <li>Vercel 계정 (1주차에서 가입)</li>
+        <li>소개하고 싶은 내용 메모 — 이름, 한 줄 소개, 연락처, 사진 1장</li>
+      </ul>
+      <div class="cl tip"><div class="cl-t">💡 미리 준비하면 시간이 남는다</div><p>본인 이름, 직함, 한 줄 소개, 연락처를 메모장에 적어 오면 프롬프트 입력이 훨씬 빠르다.</p></div>
+    </section>
+
+    <section id="html">
+      <div class="sh"><span class="sn">01</span><span class="st">HTML이 뭔가</span></div>
+      <p>HTML은 웹페이지의 <strong>뼈대</strong>다. 직접 쓸 필요는 없다 — Claude Code가 다 만들어 준다. 하지만 구조를 눈으로 보면 수정 요청을 훨씬 정확하게 할 수 있다.</p>
+
+      <h3 id="html-structure">페이지 뼈대</h3>
+      <div class="cb"><div class="cb-h"><span class="cb-l">HTML · 기본 구조</span><button class="cp-btn" onclick="cp(this)">복사</button></div><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="ko"&gt;
+&lt;head&gt;
+  <span class="c">&lt;!-- 브라우저 탭 제목, 폰트, 스타일 --&gt;</span>
+  &lt;title&gt;내 페이지 제목&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  <span class="c">&lt;!-- 실제로 보이는 내용 전부 여기 --&gt;</span>
+  &lt;h1&gt;안녕하세요&lt;/h1&gt;
+  &lt;p&gt;저는 홍길동입니다.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+
+      <h3 id="html-tags">자주 쓰는 태그</h3>
+      <table>
+        <thead><tr><th>태그</th><th>역할</th><th>예시</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;h1&gt;~&lt;h6&gt;</code></td><td>제목 (숫자 클수록 작음)</td><td>페이지 대제목, 섹션 제목</td></tr>
+          <tr><td><code>&lt;p&gt;</code></td><td>문단 텍스트</td><td>본문, 설명</td></tr>
+          <tr><td><code>&lt;a&gt;</code></td><td>링크</td><td>버튼, 외부 URL</td></tr>
+          <tr><td><code>&lt;img&gt;</code></td><td>이미지</td><td>프로필 사진, 로고</td></tr>
+          <tr><td><code>&lt;div&gt;</code></td><td>레이아웃 묶음</td><td>섹션, 카드, 그리드</td></tr>
+        </tbody>
+      </table>
+      <div class="cl info"><div class="cl-t">ℹ️ 외울 필요 없다</div><p>이 표는 Claude Code가 만든 코드를 볼 때 참고용이다. 수정할 때는 클로드에게 말로 요청하면 된다.</p></div>
+    </section>
+
+    <section id="build">
+      <div class="sh"><span class="sn">02</span><span class="st">클로드로 페이지 만들기</span></div>
+
+      <h3 id="first-prompt">빈 폴더 열고 claude 실행</h3>
+      <ol class="steps">
+        <li>바탕화면에 <code>my-landing</code> 폴더를 새로 만든다</li>
+        <li>VS Code에서 <strong>파일 → 폴더 열기</strong>로 <code>my-landing</code>을 연다</li>
+        <li>내장 터미널(<code>Ctrl + `</code>)을 열고 <code>claude</code> 입력 후 Enter</li>
+      </ol>
+
+      <h3>첫 프롬프트 — 페이지 생성</h3>
+      <div class="pb">
+        <div class="pb-l">클로드코드에 입력</div>
+        <div class="pb-t">
+          한 페이지짜리 개인 소개 랜딩페이지를 index.html 파일 하나로 만들어줘.<br><br>
+          이름: [본인 이름]<br>
+          직함 또는 하는 일: [예: 스마트스토어 운영자]<br>
+          한 줄 소개: [예: 10년 경력 의류 셀러, 패션 트렌드를 가장 빠르게 전달합니다]<br>
+          연락처: [이메일 또는 전화번호]<br>
+          색상 분위기: [예: 어둡고 세련된 느낌]<br><br>
+          섹션: 상단 히어로(이름·소개·버튼), 소개 섹션, 연락처 섹션.<br>
+          Google Fonts 사용하고, CSS는 파일 안에 같이 써줘.
+        </div>
+      </div>
+
+      <h3>브라우저에서 미리보기</h3>
+      <div class="cb"><div class="cb-h"><span class="cb-l">Windows</span><button class="cp-btn" onclick="cp(this)">복사</button></div><pre><span class="ps">PS&gt;</span> <span class="cm">start</span> index.html</pre></div>
+      <div class="cb"><div class="cb-h"><span class="cb-l">macOS</span><button class="cp-btn" onclick="cp(this)">복사</button></div><pre><span class="ps">$</span> <span class="cm">open</span> index.html</pre></div>
+
+      <h3 id="iterate">반복 수정 — 말로 요청하면 끝</h3>
+      <table>
+        <thead><tr><th>원하는 변경</th><th>클로드에게 이렇게 말한다</th></tr></thead>
+        <tbody>
+          <tr><td>글자 바꾸기</td><td>"히어로 섹션 제목을 '안녕하세요, 홍길동입니다'로 바꿔줘"</td></tr>
+          <tr><td>색상 변경</td><td>"버튼 색깔을 #534AB7 보라색으로 바꿔줘"</td></tr>
+          <tr><td>섹션 추가</td><td>"소개 아래에 서비스 3가지를 카드로 보여주는 섹션 추가해줘"</td></tr>
+          <tr><td>모바일 대응</td><td>"스마트폰에서도 잘 보이도록 반응형으로 수정해줘"</td></tr>
+          <tr><td>폰트 변경</td><td>"본문 폰트를 Noto Sans KR로 바꿔줘"</td></tr>
+        </tbody>
+      </table>
+
+      <h3 id="image">이미지 넣기</h3>
+      <p>사진이나 로고를 넣으려면 이미지 파일을 <code>my-landing</code> 폴더 안에 복사해 넣고 클로드에게 알린다.</p>
+      <div class="pb">
+        <div class="pb-l">클로드코드에 입력</div>
+        <div class="pb-t">폴더에 profile.jpg 파일을 넣었어. 히어로 섹션에 원형 프로필 사진으로 넣어줘. 크기는 150×150px.</div>
+      </div>
+      <div class="cl warn"><div class="cl-t">⚠️ 이미지 파일명에 한글 쓰지 않기</div><p><code>내사진.jpg</code> 대신 <code>profile.jpg</code>처럼 영문으로 저장해야 배포 후에도 정상 표시된다.</p></div>
+    </section>
+
+    <section id="github">
+      <div class="sh"><span class="sn">03</span><span class="st">GitHub에 올리기</span></div>
+      <p>완성된 <code>index.html</code>을 GitHub 저장소에 올려야 Vercel이 읽어서 배포할 수 있다.</p>
+
+      <h3>파일 업로드 (drag &amp; drop)</h3>
+      <ol class="steps">
+        <li><a href="https://github.com" target="_blank">github.com</a> 로그인 → 저장소 페이지 이동</li>
+        <li><strong>Add file → Upload files</strong> 클릭</li>
+        <li><code>index.html</code>과 이미지 파일들을 드래그해서 업로드 창에 놓는다</li>
+        <li>하단 <strong>Commit changes</strong> 클릭</li>
+      </ol>
+
+      <h3>터미널로 올리기 (더 빠른 방법)</h3>
+      <div class="cb"><div class="cb-h"><span class="cb-l">터미널 · 최초 1회</span><button class="cp-btn" onclick="cp(this)">복사</button></div><pre><span class="c"># my-landing 폴더 안에서 실행</span>
+<span class="ps">$</span> <span class="cm">git init</span>
+<span class="ps">$</span> <span class="cm">git remote add origin</span> <span class="s">https://github.com/내아이디/my-landing.git</span>
+<span class="ps">$</span> <span class="cm">git add</span> .
+<span class="ps">$</span> <span class="cm">git commit -m</span> <span class="s">"첫 배포"</span>
+<span class="ps">$</span> <span class="cm">git push -u origin main</span></pre></div>
+      <div class="cb"><div class="cb-h"><span class="cb-l">터미널 · 수정 후 업로드 (매번)</span><button class="cp-btn" onclick="cp(this)">복사</button></div><pre><span class="ps">$</span> <span class="cm">git add</span> .
+<span class="ps">$</span> <span class="cm">git commit -m</span> <span class="s">"내용 수정"</span>
+<span class="ps">$</span> <span class="cm">git push</span></pre></div>
+    </section>
+
+    <section id="vercel">
+      <div class="sh"><span class="sn">04</span><span class="st">Vercel 배포</span></div>
+      <div class="tl">
+        <div class="tl-item"><div class="tl-dot">1</div><div><div class="tl-time">Step 01</div><div class="tl-t">vercel.com → GitHub으로 로그인</div><div class="tl-d"><a href="https://vercel.com" target="_blank">vercel.com</a> 접속 → <strong>Continue with GitHub</strong>으로 로그인</div></div></div>
+        <div class="tl-item"><div class="tl-dot">2</div><div><div class="tl-time">Step 02</div><div class="tl-t">Add New Project → 저장소 선택</div><div class="tl-d"><strong>Add New → Project</strong> 클릭 → <code>my-landing</code> 저장소 찾아 <strong>Import</strong></div></div></div>
+        <div class="tl-item"><div class="tl-dot">3</div><div><div class="tl-time">Step 03</div><div class="tl-t">설정 그대로 → Deploy 클릭</div><div class="tl-d">Framework: <strong>Other</strong>, Root Directory: <code>./</code> 그대로 두고 <strong>Deploy</strong> 클릭</div></div></div>
+        <div class="tl-item"><div class="tl-dot">🎉</div><div><div class="tl-time">완료</div><div class="tl-t">URL 발급 — 누구나 접속 가능</div><div class="tl-d"><div class="cb" style="margin-top:8px;"><div class="cb-h"><span class="cb-l">배포 URL 예시</span></div><pre><span class="s">https://my-landing.vercel.app</span></pre></div></div></div></div>
+      </div>
+      <div class="cl tip"><div class="cl-t">💡 이후 수정은 자동 반영</div><p>GitHub에 파일을 다시 올리면 Vercel이 자동 감지해 30초~1분 안에 최신 버전으로 반영된다.</p></div>
+    </section>
+
+    <section id="domain">
+      <div class="sh"><span class="sn">05</span><span class="st">도메인 연결 (선택)</span></div>
+      <p><code>xxx.vercel.app</code> 대신 독자 도메인을 쓰고 싶으면 연결할 수 있다.</p>
+      <table>
+        <thead><tr><th>단계</th><th>내용</th><th>비용</th></tr></thead>
+        <tbody>
+          <tr><td>도메인 구매</td><td>가비아·네임칩 등에서 원하는 도메인 구매</td><td>연 1~3만원</td></tr>
+          <tr><td>Vercel에 추가</td><td>프로젝트 설정 → Domains → 도메인 입력</td><td>무료</td></tr>
+          <tr><td>DNS 연결</td><td>가비아에서 Vercel이 알려주는 값 복사해 넣기</td><td>무료</td></tr>
+          <tr><td>HTTPS 자동</td><td>Vercel이 SSL 인증서도 자동 발급</td><td>무료</td></tr>
+        </tbody>
+      </table>
+      <div class="cl info"><div class="cl-t">ℹ️ 오늘 꼭 안 해도 된다</div><p>Vercel URL로도 충분히 공유 가능하다. 나중에 명함에 넣고 싶을 때 연결해도 늦지 않는다.</p></div>
+    </section>
+
+    <section id="trouble">
+      <div class="sh"><span class="sn">—</span><span class="st">트러블슈팅</span></div>
+      <h3>이미지가 배포 후 안 보인다</h3>
+      <div class="cl warn"><div class="cl-t">이미지 파일이 GitHub에 같이 올라가지 않았다</div><p>GitHub 저장소에서 이미지 파일이 있는지 확인한다. 없으면 drag &amp; drop으로 이미지를 추가 업로드하고 Commit한다.</p></div>
+      <h3>Vercel 배포 후 빈 화면이 나온다</h3>
+      <div class="cl warn"><div class="cl-t">파일명이 index.html이 아니다</div><p>Vercel은 기본적으로 <code>index.html</code>을 찾는다. 파일명을 정확히 <code>index.html</code>로 저장했는지 확인한다.</p></div>
+      <h3>git push 시 비밀번호를 물어본다</h3>
+      <div class="cl warn"><div class="cl-t">Personal Access Token을 써야 한다</div><p>GitHub → Settings → Developer settings → Personal access tokens → Generate new token. 생성한 토큰을 비밀번호 칸에 붙여넣는다.</p></div>
+    </section>
+
+    <section id="next">
+      <div class="sh"><span class="sn">—</span><span class="st">다음 주 예고</span></div>
+      <div class="nw">
+        <div class="nw-l">3주차 예고</div>
+        <div class="nw-t">실전 업무 자동화 — 상품 설명·보고서·SNS 문구</div>
+        <div class="nw-d" style="margin-top:.5rem;">매일 반복하던 업무를 AI에게 맡긴다. 상품 설명 대량 생성, 고객 답변 자동화, 보고서 자동 완성까지. 나만의 CLAUDE.md 자동화 루틴을 만들어 저장한다.</div>
+      </div>
+    </section>
+
+    <section id="dl">
+      <div class="sh"><span class="sn">—</span><span class="st">부록 다운로드</span></div>
+      <a class="dl" href="#" onclick="alert('강사에게 파일을 요청하세요');return false;"><div class="dl-ic">📄</div><div><div class="dl-n">2주차 프롬프트 모음.pdf</div><div class="dl-m">랜딩페이지 생성·수정 프롬프트 20선</div></div></a>
+      <a class="dl" href="#" onclick="alert('강사에게 파일을 요청하세요');return false;"><div class="dl-ic">🗂️</div><div><div class="dl-n">index-template.html</div><div class="dl-m">오늘 강의에서 만든 랜딩페이지 기본 템플릿</div></div></a>
+    </section>
+  </main>
+</div>
+<script>
+function cp(b){const p=b.closest('.cb').querySelector('pre');navigator.clipboard.writeText(p.innerText.replace(/^\$ |^PS> /gm,'')).then(()=>{b.textContent='완료!';setTimeout(()=>b.textContent='복사',1500);});}
+const ob=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){document.querySelectorAll('.toc a').forEach(l=>l.style.fontWeight='');const a=document.querySelector(`.toc a[href="#${x.target.id}"]`);if(a)a.style.fontWeight='600';}});},{rootMargin:'-30% 0px -60% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>ob.observe(s));
+</script>
+</body>
+</html>

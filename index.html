@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code 실전 3회 과정 | 강남뉴코아 문화센터</title>
+<meta name="description" content="코딩 1도 몰라도 됩니다. AI Claude Code로 셋업부터 랜딩페이지 제작, 실전 업무 자동화까지 3회 완성. 강남뉴코아 문화센터">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --or:#D97757;--or-light:#F5E6DF;--or-dark:#b8613d;
+  --pu:#534AB7;--pu-light:#EEEDFE;--pu-mid:#AFA9EC;--pu-dark:#3C3489;
+  --tl:#1D9E75;--tl-light:#E1F5EE;--tl-dark:#0F6E56;
+  --am:#EF9F27;--am-light:#FAEEDA;
+  --g950:#080808;--g900:#0d0d0d;--g800:#1a1a1a;
+  --g600:#444;--g400:#888;--g300:#bbb;--g200:#e2e2e2;--g100:#f5f5f3;
+  --rsm:8px;--rmd:12px;--rlg:16px;--rxl:24px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans KR',sans-serif;background:#fafaf8;color:var(--g900);line-height:1.65;-webkit-font-smoothing:antialiased;}
+a{color:var(--pu);text-decoration:none;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,8,8,0.96);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-icon{width:32px;height:32px;border-radius:8px;background:var(--or);display:flex;align-items:center;justify-content:center;}
+.nav-logo-icon svg{width:17px;height:17px;}
+.nav-logo-text{font-size:14px;font-weight:700;color:#fff;}
+.nav-logo-text em{color:var(--or);font-style:normal;}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.nav-venue{font-size:12px;color:var(--g400);}
+.nav-cta{background:var(--or);color:#fff;border:none;padding:9px 22px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;}
+.nav-cta:hover{background:var(--or-dark);transform:translateY(-1px);}
+
+.hero{background:var(--g950);padding:132px 2rem 92px;position:relative;overflow:hidden;}
+.hbg1{position:absolute;top:-120px;right:-60px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(217,119,87,.13) 0%,transparent 65%);pointer-events:none;}
+.hbg2{position:absolute;bottom:-100px;left:5%;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(83,74,183,.1) 0%,transparent 65%);pointer-events:none;}
+.hero-inner{max-width:780px;margin:0 auto;position:relative;z-index:1;}
+.cc-badge{display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px 18px 10px 12px;margin-bottom:1.75rem;}
+.cc-badge-icon{width:40px;height:40px;border-radius:10px;background:var(--or);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cc-badge-icon svg{width:22px;height:22px;}
+.cc-badge-text{font-size:15px;font-weight:700;color:#fff;line-height:1.2;}
+.cc-badge-text small{display:block;font-size:11px;font-weight:400;color:var(--g400);margin-top:2px;}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(217,119,87,.14);border:1px solid rgba(217,119,87,.28);color:#F0A58A;font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px;margin-bottom:1.5rem;letter-spacing:.04em;}
+.eyebrow::before{content:'●';font-size:7px;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.hero h1{font-family:'Noto Serif KR',serif;font-size:clamp(28px,4.5vw,46px);font-weight:700;color:#fff;line-height:1.35;margin-bottom:1.25rem;}
+.hero h1 em{color:var(--or);font-style:normal;}
+.hero h1 .pu{color:var(--pu-mid);}
+.hero-desc{font-size:17px;color:#999;line-height:1.75;margin-bottom:2rem;max-width:560px;}
+.bb-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2.5rem;}
+.bb-chip{display:flex;align-items:center;gap:6px;background:rgba(29,158,117,.11);border:1px solid rgba(29,158,117,.28);color:#5DCAA5;font-size:13px;font-weight:500;padding:7px 16px;border-radius:var(--rsm);}
+.stats{display:flex;gap:2.5rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.stat-v{font-size:34px;font-weight:800;color:#fff;font-family:'Noto Serif KR',serif;line-height:1;}
+.stat-v span{font-size:16px;font-weight:400;}
+.stat-l{font-size:12px;color:var(--g400);margin-top:5px;}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-p{background:var(--or);color:#fff;border:none;padding:15px 32px;border-radius:var(--rsm);font-size:15px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;}
+.btn-p:hover{background:var(--or-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(217,119,87,.35);}
+.btn-g{background:transparent;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.14);padding:15px 28px;border-radius:var(--rsm);font-size:15px;font-weight:500;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;}
+.btn-g:hover{border-color:rgba(255,255,255,.4);color:#fff;}
+
+section{padding:88px 2rem;}
+.inner{max-width:780px;margin:0 auto;}
+.slbl{font-size:11px;font-weight:600;color:var(--or);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;}
+.stitle{font-family:'Noto Serif KR',serif;font-size:clamp(22px,3.5vw,32px);font-weight:700;margin-bottom:1rem;line-height:1.35;}
+.sdesc{font-size:16px;color:var(--g600);line-height:1.8;margin-bottom:2.5rem;}
+.dvd{width:36px;height:3px;background:var(--or);border-radius:2px;margin:6px 0 1.75rem;}
+
+.why{background:#fff;border-top:1px solid var(--g200);border-bottom:1px solid var(--g200);}
+.no-code-box{background:var(--g950);border-radius:var(--rxl);padding:2.5rem;margin-bottom:2rem;}
+.nc-title{font-size:20px;font-weight:700;color:#fff;margin-bottom:1.5rem;line-height:1.4;}
+.nc-title em{color:var(--or);font-style:normal;}
+.vs{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;}
+.vs-col{background:rgba(255,255,255,.04);border-radius:var(--rmd);padding:1.25rem;}
+.vs-col.bad{border:1px solid rgba(255,80,80,.18);}
+.vs-col.good{border:1px solid rgba(29,158,117,.28);background:rgba(29,158,117,.06);}
+.vs-lbl{font-size:11px;font-weight:600;letter-spacing:.07em;margin-bottom:10px;}
+.vs-col.bad .vs-lbl{color:#F08080;}
+.vs-col.good .vs-lbl{color:#5DCAA5;}
+.vs-row{font-size:13px;color:var(--g300);padding:4px 0;display:flex;align-items:center;gap:7px;}
+.vs-col.bad .vs-row::before{content:'✗';color:#F08080;flex-shrink:0;}
+.vs-col.good .vs-row::before{content:'✓';color:#5DCAA5;flex-shrink:0;}
+.vs-arr{font-size:26px;color:var(--or);text-align:center;}
+
+.curriculum{background:var(--g100);}
+.week-list{display:flex;flex-direction:column;gap:1.5rem;}
+.wk{background:#fff;border-radius:var(--rlg);border:1px solid var(--g200);overflow:hidden;transition:transform .2s,box-shadow .2s;}
+.wk:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.07);}
+.wk-head{display:flex;}
+.wk-num{width:82px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem .5rem;gap:3px;}
+.wk:nth-child(1) .wk-num{background:var(--or);}
+.wk:nth-child(2) .wk-num{background:var(--pu);}
+.wk:nth-child(3) .wk-num{background:var(--tl-dark);}
+.wk-num-l{font-size:10px;font-weight:600;color:rgba(255,255,255,.65);letter-spacing:.08em;}
+.wk-num-n{font-size:38px;font-weight:800;color:#fff;line-height:1;font-family:'Noto Serif KR',serif;}
+.wk-body{padding:1.5rem 1.75rem;flex:1;}
+.wk-tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin-bottom:8px;letter-spacing:.04em;}
+.wk:nth-child(1) .wk-tag{background:var(--or-light);color:#a0513a;}
+.wk:nth-child(2) .wk-tag{background:var(--pu-light);color:var(--pu-dark);}
+.wk:nth-child(3) .wk-tag{background:var(--tl-light);color:var(--tl-dark);}
+.wk-title{font-size:19px;font-weight:700;margin-bottom:.5rem;}
+.wk-link{font-size:12px;color:var(--or);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-bottom:.6rem;}
+.wk-link:hover{text-decoration:underline;}
+.wk-goal{font-size:14px;color:var(--g600);margin-bottom:1rem;line-height:1.65;}
+.wk-pills{display:flex;flex-wrap:wrap;gap:6px;}
+.pill{font-size:12px;color:var(--g600);background:var(--g100);border:1px solid var(--g200);padding:4px 10px;border-radius:20px;}
+.pill::before{content:'· ';}
+.wk-time{font-size:12px;color:var(--g400);margin-top:1rem;}
+.wk-time strong{color:var(--g600);}
+
+.outcomes{background:#fff;border-top:1px solid var(--g200);}
+.oc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+.oc{background:var(--g100);border-radius:var(--rmd);padding:1.4rem;}
+.oc-ic{font-size:28px;margin-bottom:10px;}
+.oc-t{font-size:15px;font-weight:700;margin-bottom:5px;}
+.oc-d{font-size:13px;color:var(--g600);line-height:1.65;}
+
+.target{background:var(--g100);}
+.tg-list{display:flex;flex-direction:column;gap:10px;}
+.tg{background:#fff;border-radius:var(--rmd);border:1px solid var(--g200);padding:1.1rem 1.4rem;display:flex;align-items:flex-start;gap:14px;}
+.tg-ic{font-size:24px;flex-shrink:0;margin-top:2px;}
+.tg-t{font-size:14px;font-weight:700;color:var(--g900);margin-bottom:3px;}
+.tg-d{font-size:13px;color:var(--g600);line-height:1.6;}
+
+.instructor{background:var(--g950);border-top:1px solid rgba(255,255,255,.05);}
+.instructor .slbl{color:var(--or);}
+.instructor .stitle{color:#fff;}
+.instructor .sdesc{color:#888;margin-bottom:2.5rem;}
+.inst-card{display:grid;grid-template-columns:260px 1fr;gap:3rem;align-items:start;}
+.inst-photo-wrap{position:relative;}
+.inst-photo{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top center;border-radius:var(--rlg);display:block;}
+.inst-photo-badge{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--or);color:#fff;font-size:12px;font-weight:700;padding:6px 16px;border-radius:20px;box-shadow:0 4px 16px rgba(217,119,87,.4);}
+.inst-name-row{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;}
+.inst-name{font-family:'Noto Serif KR',serif;font-size:26px;font-weight:700;color:#fff;}
+.inst-role{font-size:14px;color:var(--or);font-weight:500;}
+.inst-org{font-size:13px;color:var(--g400);margin-bottom:1.5rem;}
+.inst-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1.5rem;}
+.inst-tag{font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid;}
+.itag-or{background:rgba(217,119,87,.12);border-color:rgba(217,119,87,.3);color:#F0A58A;}
+.itag-pu{background:rgba(83,74,183,.12);border-color:rgba(83,74,183,.3);color:var(--pu-mid);}
+.itag-tl{background:rgba(29,158,117,.1);border-color:rgba(29,158,117,.28);color:#5DCAA5;}
+.inst-highlight{background:rgba(217,119,87,.07);border:1px solid rgba(217,119,87,.2);border-radius:var(--rmd);padding:1rem 1.25rem;margin-bottom:1.4rem;}
+.inst-highlight p{font-size:14px;color:#F0A58A;line-height:1.7;font-weight:500;}
+.inst-bio{font-size:14px;color:#aaa;line-height:1.8;margin-bottom:1.5rem;}
+.inst-bio strong{color:#fff;}
+.ic-label{font-size:11px;font-weight:600;color:var(--g400);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.ic-item{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.ic-item:last-child{border-bottom:none;}
+.ic-dot{width:6px;height:6px;border-radius:50%;background:var(--or);flex-shrink:0;margin-top:7px;}
+.ic-text{font-size:13px;color:#bbb;line-height:1.6;}
+.ic-text strong{color:#fff;font-weight:600;}
+
+.pricing{background:var(--g950);}
+.pricing .slbl{color:var(--or);}
+.pricing .stitle{color:#fff;}
+.pricing .sdesc{color:#888;}
+.price-card{background:var(--g800);border:1px solid rgba(255,255,255,.08);border-radius:var(--rxl);padding:2.5rem;position:relative;overflow:hidden;}
+.price-card::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(217,119,87,.14) 0%,transparent 70%);}
+.price-top{display:flex;align-items:flex-end;gap:14px;margin-bottom:6px;position:relative;z-index:1;}
+.price-amt{font-size:52px;font-weight:800;color:#fff;font-family:'Noto Serif KR',serif;line-height:1;}
+.price-unit{font-size:16px;color:#888;padding-bottom:8px;}
+.price-sub{font-size:14px;color:#666;margin-bottom:2rem;position:relative;z-index:1;}
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:2rem;position:relative;z-index:1;}
+.pi{background:rgba(255,255,255,.05);border-radius:var(--rsm);padding:1rem;}
+.pi-l{font-size:11px;color:#666;margin-bottom:4px;}
+.pi-v{font-size:14px;font-weight:500;color:#ddd;}
+.price-note{font-size:13px;color:#999;background:rgba(239,159,39,.07);border:1px solid rgba(239,159,39,.18);border-radius:var(--rsm);padding:.85rem 1rem;margin-bottom:1.5rem;position:relative;z-index:1;}
+.btn-cta{display:block;width:100%;background:var(--or);color:#fff;border:none;padding:17px;border-radius:var(--rsm);font-size:16px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;position:relative;z-index:1;}
+.btn-cta:hover{background:var(--or-dark);}
+
+.faq{background:var(--g100);}
+.faq-list{display:flex;flex-direction:column;gap:8px;}
+.fi-item{background:#fff;border-radius:var(--rmd);border:1px solid var(--g200);overflow:hidden;}
+.fi-q{display:flex;align-items:center;gap:12px;padding:1.1rem 1.4rem;cursor:pointer;user-select:none;transition:background .15s;}
+.fi-q:hover{background:var(--g100);}
+.fi-num{width:26px;height:26px;border-radius:6px;background:var(--or-light);color:#a0513a;font-size:11px;font-weight:700;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.fi-qt{font-size:14px;font-weight:500;flex:1;line-height:1.4;color:var(--g900);}
+.fi-ch{font-size:18px;color:var(--g300);transition:transform .25s;flex-shrink:0;}
+.fi-item.open .fi-ch{transform:rotate(180deg);}
+.fi-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;font-size:14px;color:var(--g600);line-height:1.8;padding:0 1.4rem 0 3.6rem;}
+.fi-item.open .fi-a{max-height:500px;padding:.85rem 1.4rem 1.25rem 3.6rem;border-top:1px solid var(--g200);}
+.fi-a ul{padding-left:1.2rem;margin-top:6px;}
+.fi-a ul li{margin-bottom:4px;}
+.cg{display:inline-block;font-size:12px;font-weight:500;padding:3px 10px;border-radius:20px;margin:4px 3px 0 0;}
+.cg-g{background:var(--tl-light);color:var(--tl-dark);}
+.cg-a{background:var(--am-light);color:#7a4509;}
+.cg-p{background:var(--pu-light);color:var(--pu-dark);}
+
+.cta-footer{background:var(--g950);padding:100px 2rem;text-align:center;border-top:1px solid rgba(255,255,255,.05);}
+.cta-cc{display:inline-flex;align-items:center;gap:10px;background:rgba(217,119,87,.11);border:1px solid rgba(217,119,87,.22);border-radius:14px;padding:8px 18px 8px 10px;margin-bottom:2rem;}
+.cta-cc-ic{width:34px;height:34px;border-radius:8px;background:var(--or);display:flex;align-items:center;justify-content:center;}
+.cta-cc-ic svg{width:18px;height:18px;}
+.cta-cc-t{font-size:13px;font-weight:600;color:#F0A58A;}
+.cta-footer h2{font-family:'Noto Serif KR',serif;font-size:clamp(24px,4vw,36px);font-weight:700;color:#fff;margin-bottom:.75rem;line-height:1.35;}
+.cta-footer p{font-size:15px;color:#777;margin-bottom:2.5rem;}
+.btn-white{display:inline-block;background:#fff;color:var(--g950);border:none;padding:16px 44px;border-radius:var(--rsm);font-size:16px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,255,255,.14);}
+footer{background:#050505;padding:2rem;text-align:center;font-size:13px;color:#444;border-top:1px solid rgba(255,255,255,.04);}
+footer a{color:#555;}
+
+.fa{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease;}
+.fa.vis{opacity:1;transform:none;}
+@media(max-width:680px){
+  nav{padding:0 1rem;}.nav-venue{display:none;}
+  section{padding:64px 1.25rem;}.hero{padding:110px 1.25rem 72px;}
+  .stats{gap:1.75rem;}.price-amt{font-size:40px;}.cta-footer{padding:72px 1.25rem;}
+  .wk-head{flex-direction:column;}.wk-num{width:100%;flex-direction:row;padding:1rem 1.5rem;gap:8px;justify-content:flex-start;}.wk-num-n{font-size:22px;}
+  .inst-card{grid-template-columns:1fr;gap:2rem;}.vs{grid-template-columns:1fr;}.vs-arr{transform:rotate(90deg);}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="nav-logo-text">Claude <em>Code</em> 실전 과정</span>
+  </a>
+  <div class="nav-right">
+    <span class="nav-venue">강남뉴코아 문화센터</span>
+    <button class="nav-cta" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">수강 신청</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hbg1"></div><div class="hbg2"></div>
+  <div class="hero-inner">
+    <div class="cc-badge">
+      <div class="cc-badge-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="cc-badge-text">Claude Code<small>by Anthropic &nbsp;·&nbsp; AI 코딩 어시스턴트</small></div>
+    </div>
+    <div class="eyebrow">강남뉴코아 문화센터 신규 강좌 &nbsp;·&nbsp; 왕초보 완전 환영</div>
+    <h1><em>코딩 1도 몰라도</em> 됩니다<br>Claude Code로 내 업무를<br><span class="pu">AI가 대신 처리</span>하게 만든다</h1>
+    <p class="hero-desc">한국어로 말만 하면 AI가 코드를 쓰고, 파일을 만들고, 페이지를 올립니다.<br>3주 만에 나만의 랜딩페이지와 업무 자동화 루틴을 손에 쥡니다.</p>
+    <div class="bb-row">
+      <div class="bb-chip">✅ 코딩 경험 전혀 없어도 OK</div>
+      <div class="bb-chip">✅ 프로그래밍 언어 몰라도 OK</div>
+      <div class="bb-chip">✅ 한국어 대화만으로 실습 완성</div>
+    </div>
+    <div class="stats">
+      <div><div class="stat-v">3<span>회</span></div><div class="stat-l">총 강좌 횟수</div></div>
+      <div><div class="stat-v">9<span>h</span></div><div class="stat-l">총 실습 시간</div></div>
+      <div><div class="stat-v">12<span>명</span></div><div class="stat-l">소수 정원</div></div>
+      <div><div class="stat-v">50<span>만원</span></div><div class="stat-l">전체 수강료</div></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-p" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">수강 신청하기</button>
+      <button class="btn-g" onclick="document.getElementById('curriculum').scrollIntoView({behavior:'smooth'})">커리큘럼 보기 ↓</button>
+    </div>
+  </div>
+</section>
+
+<section class="why">
+  <div class="inner fa">
+    <div class="slbl">왜 Claude Code인가</div><div class="dvd"></div>
+    <h2 class="stitle">"나는 코딩을 전혀 몰라서요…"<br>그 말이 이 강좌의 시작입니다</h2>
+    <p class="sdesc">기존 코딩 강좌와 전혀 다릅니다. Claude Code는 AI에게 한국어로 지시하면 모든 코드를 대신 써줍니다.</p>
+    <div class="no-code-box">
+      <div class="nc-title">기존 방식 vs <em>Claude Code 방식</em></div>
+      <div class="vs">
+        <div class="vs-col bad">
+          <div class="vs-lbl">❌ 기존 코딩 강좌</div>
+          <div class="vs-row">HTML·CSS·JS 문법 암기</div>
+          <div class="vs-row">영어 에러 메시지 해석</div>
+          <div class="vs-row">수백 줄 코드 직접 작성</div>
+          <div class="vs-row">6개월~1년 학습 필요</div>
+        </div>
+        <div class="vs-arr">→</div>
+        <div class="vs-col good">
+          <div class="vs-lbl">✅ Claude Code 방식</div>
+          <div class="vs-row">한국어로 "이렇게 해줘"만</div>
+          <div class="vs-row">AI가 코드 100% 작성</div>
+          <div class="vs-row">오류도 AI가 스스로 수정</div>
+          <div class="vs-row">오늘 배우고 내일 바로 사용</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="curriculum" id="curriculum">
+  <div class="inner fa">
+    <div class="slbl">3회 커리큘럼</div><div class="dvd"></div>
+    <h2 class="stitle">매 주차마다 완성된<br>결과물을 가져갑니다</h2>
+    <p class="sdesc">셋업부터 랜딩페이지 배포, 실전 자동화까지. 단계별로 쌓이는 구조라 누구나 따라올 수 있습니다.</p>
+    <div class="week-list">
+      <div class="wk">
+        <div class="wk-head">
+          <div class="wk-num"><div class="wk-num-l">WEEK</div><div class="wk-num-n">01</div></div>
+          <div class="wk-body">
+            <span class="wk-tag">환경 셋팅 · 기초</span>
+            <div class="wk-title">Claude Code 설치 · GitHub · Vercel 준비</div>
+            <a class="wk-link" href="1.html">→ 1주차 강의안 보기</a>
+            <div class="wk-goal">노트북에 Claude Code를 설치하고 GitHub 저장소를 만든 뒤 Vercel과 연결한다. 이 세팅이 되어 있어야 2주차 배포가 버튼 하나로 끝난다.</div>
+            <div class="wk-pills">
+              <span class="pill">VS Code 설치</span><span class="pill">Claude Code 설치·로그인</span>
+              <span class="pill">한국어 프롬프트 기초</span><span class="pill">GitHub 계정·저장소 생성</span>
+              <span class="pill">Vercel 연결</span>
+            </div>
+            <div class="wk-time">⏱ <strong>3시간</strong> &nbsp;·&nbsp; 수강 후 모든 도구 세팅 완료</div>
+          </div>
+        </div>
+      </div>
+      <div class="wk">
+        <div class="wk-head">
+          <div class="wk-num"><div class="wk-num-l">WEEK</div><div class="wk-num-n">02</div></div>
+          <div class="wk-body">
+            <span class="wk-tag">랜딩페이지 제작 · 배포</span>
+            <div class="wk-title">나만의 랜딩페이지 완성 · Vercel 배포</div>
+            <a class="wk-link" href="2.html">→ 2주차 강의안 보기</a>
+            <div class="wk-goal">Claude Code에게 말로 지시해서 HTML 랜딩페이지를 만들고 GitHub에 올려 Vercel로 배포한다. 강의가 끝나면 실제 접속 가능한 내 URL을 갖게 된다.</div>
+            <div class="wk-pills">
+              <span class="pill">HTML 구조 이해</span><span class="pill">프롬프트로 페이지 생성</span>
+              <span class="pill">이미지·색상 수정</span><span class="pill">모바일 반응형</span>
+              <span class="pill">GitHub 업로드</span><span class="pill">Vercel 배포·URL 발급</span>
+            </div>
+            <div class="wk-time">⏱ <strong>3시간</strong> &nbsp;·&nbsp; 수강 후 나만의 URL 완성</div>
+          </div>
+        </div>
+      </div>
+      <div class="wk">
+        <div class="wk-head">
+          <div class="wk-num"><div class="wk-num-l">WEEK</div><div class="wk-num-n">03</div></div>
+          <div class="wk-body">
+            <span class="wk-tag">실전 업무 자동화</span>
+            <div class="wk-title">상품 설명 · 보고서 · SNS 문구 자동화</div>
+            <a class="wk-link" href="3.html">→ 3주차 강의안 보기</a>
+            <div class="wk-goal">매일 반복하던 업무를 AI에게 맡긴다. 상품 설명 대량 생성, 고객 답변 자동화, 보고서 자동 완성. 나만의 CLAUDE.md 루틴을 만들어 저장한다.</div>
+            <div class="wk-pills">
+              <span class="pill">엑셀 데이터 정리 자동화</span><span class="pill">상품 설명 대량 생성</span>
+              <span class="pill">SNS 캡션 자동화</span><span class="pill">고객 문의 답변 템플릿</span>
+              <span class="pill">보고서 자동 완성</span><span class="pill">CLAUDE.md 루틴 저장</span>
+            </div>
+            <div class="wk-time">⏱ <strong>3시간</strong> &nbsp;·&nbsp; 수강 후 매일 1~2시간 절약</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="outcomes">
+  <div class="inner fa">
+    <div class="slbl">수강 성과</div><div class="dvd"></div>
+    <h2 class="stitle">3주 후, 이것들을<br>직접 보유하게 됩니다</h2>
+    <p class="sdesc">강의 중에 완성한 결과물은 당일부터 현업에 바로 적용할 수 있습니다.</p>
+    <div class="oc-grid">
+      <div class="oc"><div class="oc-ic">🌐</div><div class="oc-t">나만의 랜딩페이지 URL</div><div class="oc-d">실제 인터넷에 공개된 내 브랜드·사업 소개 페이지. 명함에 넣어도 되는 진짜 주소.</div></div>
+      <div class="oc"><div class="oc-ic">⚡</div><div class="oc-t">업무 자동화 프롬프트</div><div class="oc-d">내 업무에 맞춘 CLAUDE.md 자동화 루틴. 열기만 하면 AI가 바로 준비 완료.</div></div>
+      <div class="oc"><div class="oc-ic">⏰</div><div class="oc-t">하루 1~2시간 단축</div><div class="oc-d">상품 설명·보고서·SNS 문구 등 반복 업무를 AI가 대신 처리해 시간을 되찾는다.</div></div>
+      <div class="oc"><div class="oc-ic">🚀</div><div class="oc-t">AI 지시 능력</div><div class="oc-d">도구가 바뀌어도 통하는 핵심 역량. Claude Code뿐 아니라 모든 AI 도구에 적용.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="target">
+  <div class="inner fa">
+    <div class="slbl">추천 대상</div><div class="dvd"></div>
+    <h2 class="stitle">이런 분이라면<br>딱 맞는 강좌입니다</h2>
+    <p class="sdesc">코딩 경험이 없어도, 바빠도 따라올 수 있도록 설계된 과정입니다.</p>
+    <div class="tg-list">
+      <div class="tg"><div class="tg-ic">🛒</div><div><div class="tg-t">온라인 셀러 · 스마트스토어 운영자</div><div class="tg-d">상품 등록·설명·고객 문의 처리 시간을 대폭 줄이고 싶은 분</div></div></div>
+      <div class="tg"><div class="tg-ic">🏪</div><div><div class="tg-t">소상공인 · 프리랜서</div><div class="tg-d">코딩 없이 내 사업을 소개하는 홈페이지를 직접 만들고 싶은 분</div></div></div>
+      <div class="tg"><div class="tg-ic">💼</div><div><div class="tg-t">30~50대 직장인</div><div class="tg-d">AI가 궁금한데 어디서 시작해야 할지 모르는 분. 보고서·문서 자동화를 원하는 분</div></div></div>
+      <div class="tg"><div class="tg-ic">🚀</div><div><div class="tg-t">부업 · 사이드 프로젝트 준비자</div><div class="tg-d">온라인 존재감을 만들고 싶은 분. 적은 비용으로 홈페이지가 필요한 분</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="instructor">
+  <div class="inner fa">
+    <div class="slbl">강사 소개</div><div class="dvd"></div>
+    <h2 class="stitle">현장에서 직접 AI Agent를<br>구축해온 실전 전문가</h2>
+    <p class="sdesc">이론이 아닌 실제 비즈니스 현장에서 Claude Code를 활용해온 대표가 직접 가르칩니다.</p>
+    <div class="inst-card">
+      <div class="inst-photo-wrap">
+        <img class="inst-photo" src="instructor.jpg" alt="정회철 강사 프로필">
+        <div class="inst-photo-badge">AI Agent 전문가</div>
+      </div>
+      <div>
+        <div class="inst-name-row"><span class="inst-name">정회철</span><span class="inst-role">대표</span></div>
+        <div class="inst-org">더정컴퍼니 · 네이버 경제 인플루언서 Top 100</div>
+        <div class="inst-tags">
+          <span class="inst-tag itag-or">AI Agent 구축</span>
+          <span class="inst-tag itag-or">Claude Code 실전</span>
+          <span class="inst-tag itag-pu">AX 현장 전문가</span>
+          <span class="inst-tag itag-pu">세무·노무·관세 법인 AX</span>
+          <span class="inst-tag itag-tl">네이버 피드메이커 4기</span>
+        </div>
+        <div class="inst-highlight"><p>💡 "코딩을 가르치는 것이 아닙니다. AI에게 일을 시키는 법을 가르칩니다.<br>세무·노무·관세법인 현장에서 직접 AX를 구축한 경험 그대로 전달합니다."</p></div>
+        <div class="inst-bio"><strong>더정컴퍼니 대표</strong>로서 실제 비즈니스 현장에 AI Agent를 도입·운영해온 실전 전문가입니다. <strong>세무법인·노무법인·관세법인</strong>의 반복 업무를 AI로 자동화한 풍부한 현장 경험을 바탕으로 강의합니다.</div>
+        <div class="ic-label">주요 경력 & 활동</div>
+        <div class="ic-item"><div class="ic-dot"></div><div class="ic-text"><strong>더정컴퍼니 대표</strong> — AI Agent 기반 비즈니스 자동화 구축·운영</div></div>
+        <div class="ic-item"><div class="ic-dot"></div><div class="ic-text"><strong>세무·노무·관세법인 AX 현장 구축</strong> — 반복 업무 자동화, 문서 처리 AI 도입</div></div>
+        <div class="ic-item"><div class="ic-dot"></div><div class="ic-text"><strong>이랜드리테일 위라이크패션</strong> 매출 대시보드·운영 자동화 구축</div></div>
+        <div class="ic-item"><div class="ic-dot"></div><div class="ic-text"><strong>네이버 경제 인플루언서 Top 100</strong> — AI·미국주식 투자 교육 콘텐츠 운영</div></div>
+        <div class="ic-item"><div class="ic-dot"></div><div class="ic-text"><strong>네이버 피드메이커 4기 선발</strong> — 생활 밀착형 AI 활용 교육 콘텐츠 발행</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="inner fa">
+    <div class="slbl">수강 정보</div><div class="dvd"></div>
+    <h2 class="stitle">투명한 수강료<br>숨겨진 비용 없음</h2>
+    <p class="sdesc">3회 9시간 전 과정, 모든 실습 자료가 포함됩니다.</p>
+    <div class="price-card">
+      <div class="price-top"><div class="price-amt">500,000</div><div class="price-unit">원</div></div>
+      <div class="price-sub">총 3회 · 9시간 전 과정 · 실습 자료 포함</div>
+      <div class="price-grid">
+        <div class="pi"><div class="pi-l">정원</div><div class="pi-v">12명 (선착순)</div></div>
+        <div class="pi"><div class="pi-l">준비물</div><div class="pi-v">노트북 필수 지참</div></div>
+        <div class="pi"><div class="pi-l">강좌 형태</div><div class="pi-v">오프라인 실습 중심</div></div>
+        <div class="pi"><div class="pi-l">수준</div><div class="pi-v">코딩 왕초보 환영</div></div>
+      </div>
+      <div class="price-note">⚠️ Claude.ai Pro 구독료(월 약 $20)는 수강료와 별도입니다. 1회차 강의 시작 전 가입 안내를 드립니다.</div>
+      <button class="btn-cta">지금 수강 신청하기 →</button>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="inner fa">
+    <div class="slbl">자주 묻는 질문</div><div class="dvd"></div>
+    <h2 class="stitle">수강 전 가장 많이<br>물어보시는 질문들</h2>
+    <p class="sdesc" style="margin-bottom:1.5rem;">클릭하면 답변이 펼쳐집니다.</p>
+    <div class="faq-list">
+      <div class="fi-item open"><div class="fi-q" onclick="tf(this)"><div class="fi-num">Q1</div><div class="fi-qt">코딩을 한 번도 해본 적 없어도 따라갈 수 있나요?</div><span class="fi-ch">▾</span></div><div class="fi-a">네, 완전히 가능합니다. 이 강좌는 <strong>코딩을 한 줄도 써본 적 없는 분</strong>을 기준으로 설계했습니다. Claude Code는 한국어로 "이렇게 만들어줘"라고 하면 AI가 모든 코드를 대신 작성합니다.<br><span class="cg cg-p">✔ 코딩 경험 제로도 OK</span><span class="cg cg-p">✔ 영어 몰라도 OK</span><span class="cg cg-g">✔ 한국어 대화만으로 완성</span></div></div>
+      <div class="fi-item"><div class="fi-q" onclick="tf(this)"><div class="fi-num">Q2</div><div class="fi-qt">커리큘럼 순서가 셋팅 → 랜딩페이지 → 자동화인 이유가 있나요?</div><span class="fi-ch">▾</span></div><div class="fi-a">1주차에 GitHub와 Vercel을 미리 세팅해 두면 2주차 랜딩페이지 완성 즉시 배포가 가능합니다. 매 주차마다 완성된 결과물을 손에 쥐고 돌아가도록 설계한 순서입니다.</div></div>
+      <div class="fi-item"><div class="fi-q" onclick="tf(this)"><div class="fi-num">Q3</div><div class="fi-qt">노트북 사양이 어느 정도여야 하나요?</div><span class="fi-ch">▾</span></div><div class="fi-a"><ul><li>운영체제: Windows 10/11 또는 macOS 모두 가능</li><li>램 8GB 이상, 저장공간 여유 10GB 이상 권장</li><li>태블릿·스마트폰은 실습 불가 — 노트북 필수</li></ul></div></div>
+      <div class="fi-item"><div class="fi-q" onclick="tf(this)"><div class="fi-num">Q4</div><div class="fi-qt">Claude 유료 구독이 꼭 필요한가요?</div><span class="fi-ch">▾</span></div><div class="fi-a">Claude.ai Pro 구독(월 약 $20)이 필요합니다. 무료 플랜은 실습 도중 한도에 걸릴 수 있습니다.<br><span class="cg cg-g">수강료 50만원 외 별도</span><span class="cg cg-a">무료 플랜은 실습 제한</span></div></div>
+      <div class="fi-item"><div class="fi-q" onclick="tf(this)"><div class="fi-num">Q5</div><div class="fi-qt">3회 수료 후 실제로 무엇을 갖게 되나요?</div><span class="fi-ch">▾</span></div><div class="fi-a"><ul><li>실제 URL이 있는 나만의 랜딩페이지 1개</li><li>내 업무에 맞춘 자동화 프롬프트 모음(CLAUDE.md)</li><li>상품 설명·SNS 문구·보고서 자동 생성 템플릿</li><li>수료생 전용 카카오톡 채널 영구 참여</li></ul></div></div>
+      <div class="fi-item"><div class="fi-q" onclick="tf(this)"><div class="fi-num">Q6</div><div class="fi-qt">랜딩페이지 월 유지 비용이 드나요?</div><span class="fi-ch">▾</span></div><div class="fi-a">GitHub + Vercel 무료 플랜으로 월 운영 비용 <strong>0원</strong>입니다. 독자 도메인 원할 때만 연 1~3만원.<br><span class="cg cg-g">✔ 월 유지비 0원</span></div></div>
+      <div class="fi-item"><div class="fi-q" onclick="tf(this)"><div class="fi-num">Q7</div><div class="fi-qt">환불은 언제까지 가능한가요?</div><span class="fi-ch">▾</span></div><div class="fi-a"><ul><li>개강 7일 전까지: 전액 환불</li><li>1회차 수강 후: 수강료의 2/3 환불</li><li>2회차 수강 후: 환불 불가</li></ul><span class="cg cg-a">정확한 규정은 문화센터 공식 안내 기준으로 확인</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-footer">
+  <div class="cta-cc"><div class="cta-cc-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="cta-cc-t">Claude Code &nbsp;·&nbsp; 강남뉴코아 문화센터</span></div>
+  <h2>코딩 1도 몰라도<br>시작할 수 있습니다</h2>
+  <p>왕초보 완전 환영 &nbsp;·&nbsp; 정원 12명 &nbsp;·&nbsp; 조기 마감 예상</p>
+  <button class="btn-white" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">수강 신청하기</button>
+</section>
+<footer><p>강남뉴코아 문화센터 &nbsp;·&nbsp; 서울특별시 서초구 잠원로 51 &nbsp;·&nbsp; 문의: 02-530-5000</p><p style="margin-top:6px;"><a href="#">개인정보처리방침</a> &nbsp;·&nbsp; <a href="#">이용약관</a></p></footer>
+<script>
+function tf(el){const i=el.closest('.fi-item'),w=i.classList.contains('open');document.querySelectorAll('.fi-item').forEach(x=>x.classList.remove('open'));if(!w)i.classList.add('open');}
+const ob=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');});},{threshold:0.07});
+document.querySelectorAll('.fa').forEach(el=>ob.observe(el));
+</script>
+</body>
+</html>
